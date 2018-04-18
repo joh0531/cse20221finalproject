@@ -1,0 +1,97 @@
+Restore Archived Project report for microprocessor
+Wed Apr 18 15:57:12 2018
+Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Restore Archived Project Summary
+  3. Restore Archived Project Messages
+  4. Files Restored
+  5. Files Not Restored
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2016 Altera Corporation. All rights reserved.
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, the Altera Quartus Prime License Agreement,
+the Altera MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Altera and sold by Altera or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++-------------------------------------------------------------------------+
+; Restore Archived Project Summary                                        ;
++---------------------------------+---------------------------------------+
+; Restore Archived Project Status ; Successful - Wed Apr 18 15:57:12 2018 ;
+; Revision Name                   ; microprocessor                        ;
+; Top-level Entity Name           ; system                                ;
+; Family                          ; Cyclone IV E                          ;
++---------------------------------+---------------------------------------+
+
+
++-----------------------------------+
+; Restore Archived Project Messages ;
++-----------------------------------+
+Info: Successfully restored 'C:/Users/eatkins1/Downloads/microprocessor.qar' into the 'H:\\ld\\finalproject/' directory
+Info: Generated report 'microprocessor.restore.rpt'
+Info (23030): Evaluation of Tcl script c:/altera_lite/16.0/quartus/common/tcl/apps/qpm/qar.tcl was successful
+Info: Quartus Prime Shell was successful. 0 errors, 0 warnings
+    Info: Peak virtual memory: 523 megabytes
+    Info: Processing ended: Wed Apr 18 15:57:12 2018
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:01
+
+
++----------------------------------------+
+; Files Restored                         ;
++----------------------------------------+
+; File Name                              ;
++----------------------------------------+
+; qar_info.json                          ;
+; microprocessor.qpf                     ;
+; microprocessor.qsf                     ;
+; microprocessor_assignment_defaults.qdf ;
+; verilog/alu.v                          ;
+; verilog/controller.v                   ;
+; verilog/datapath.v                     ;
+; verilog/flags.v                        ;
+; verilog/memory_map.v                   ;
+; verilog/pc_update.v                    ;
+; verilog/processor.v                    ;
+; verilog/ram.v                          ;
+; verilog/ram32k.v                       ;
+; verilog/ram_tb.v                       ;
+; verilog/reg16.v                        ;
+; verilog/regfile.v                      ;
+; verilog/regfile_tb.v                   ;
+; verilog/register.v                     ;
+; verilog/system.v                       ;
+; verilog/system_io.v                    ;
+; verilog/system_io_DE2.v                ;
+; verilog/system_io_tb.v                 ;
+; verilog/system_tb.v                    ;
++----------------------------------------+
+
+
++--------------------+
+; Files Not Restored ;
++--------------------+
+; File Name          ;
++--------------------+
+
+
