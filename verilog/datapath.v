@@ -28,18 +28,20 @@ input en_timer,
 	output did_win
 );
 
+	
+
 	//move stage
 	always @(posedge clk)
 	if (en_move)
 	move <= s_move;
 
-		//timer stage
-		always @(posedge clk)
-			if (en_timer)
-				if (s_timer)
-					timer <= timer + 1;
-				else
-					timer <= 0;
+	//timer stage
+	always @(posedge clk)
+		if (en_timer)
+			if (s_timer)
+				timer <= timer + 1;
+			else
+				timer <= 0;
 
 	//xpos stage
 	always @(posedge clk)
@@ -58,6 +60,8 @@ input en_timer,
 		2: ypos <= ypos - 1;
 	endcase
 
+	assign timer_done = (timer == 1 << 19);
+	assign obs_black = 
+	
 
-
-	endmodule
+endmodule
