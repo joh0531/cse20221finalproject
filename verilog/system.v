@@ -1,27 +1,34 @@
 module system (
    input          clk,
    input          reset,
-   output  [15:0] proc_din,
-   output  [15:0] addr,
-   output  [15:0] proc_dout,
-   output         we
+   output  [2:0]  color_out,
+	output  [7:0]  x,
+	output  [7:0]  y,
+	output  			plot
    );
-      
+	
+	wire we;
+   wire color_in;
+
+	
    processor processor (
       .clk     (clk      ),
       .reset   (reset    ),
-      .din     (proc_din ),
-      .addr    (addr     ),
-      .dout    (proc_dout),
-      .we      (we       )
+      .din     (color_out),
+      .x    	(x			 ),
+		.y			(y			 )
+      .dout    (color_in ),
+      .we      (we       ),
+		.en_plot	(plot		 )
    );
    
    ram memory (
       .clk     (clk      ),
-      .addr    (addr     ),
-      .din     (proc_dout),
+      .x    	(x     	 ),
+		.y			(y			 ),
+      .din     (color_in ),
       .we      (we       ),
-      .dout    (proc_din )
+      .dout    (color_out)
    );
    
 endmodule
