@@ -1123,3 +1123,4 @@ set_global_assignment -name VERILOG_FILE verilog/ram32k.v
 set_global_assignment -name VERILOG_FILE verilog/system_io.v
 set_global_assignment -name VERILOG_FILE verilog/system_io_tb.v
 set_global_assignment -name VERILOG_FILE verilog/system_io_DE2.v
+set_global_assignment -name VERILOG_FILE verilog/obstacle_DE2.v
