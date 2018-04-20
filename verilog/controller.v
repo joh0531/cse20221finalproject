@@ -122,7 +122,7 @@ module controller(
 				next_state = DRAW;
 			end
 			DRAW: begin
-				plot = 1; s_color = 1;
+				plot = 1; 		s_color = 1;
 				
 				next_state = WAIT_TIMER;
 			end

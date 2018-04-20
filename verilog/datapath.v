@@ -22,7 +22,7 @@ module datapath (
 	//outputs
 	output reg [7:0] xpos,
 	output reg [7:0] ypos,
-	output reg [2:0] color_draw
+	output reg [2:0] color_draw,
 	/*
 	output reg [23:0] key,
 
@@ -30,14 +30,14 @@ module datapath (
 	output obs_black,
 	output did_win
 	*/
-	output timer_done,
+	output timer_done
 );
 
 	parameter BLACK = 3'b000;
 	parameter RED	 = 3'b100;
 	parameter GREEN = 3'b010;
 	
-	wire [19:0] timer;
+	reg [25:0] timer;
 
 
 	/*
@@ -53,7 +53,7 @@ module datapath (
 			if (s_timer)
 				timer <= timer + 1;
 			else
-				timer <= 0;
+				timer <= 20'b0;
 	
 	always @(posedge clk) begin
 		xpos <= 8'd80;
@@ -88,7 +88,7 @@ module datapath (
 				color_draw <= BLACK;
 				
 	//FLAGS
-	assign timer_done = (timer == 1 << 19);
+	assign timer_done = (timer >= 26'd50_000_000);
 	
 
 endmodule

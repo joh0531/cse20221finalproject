@@ -8,7 +8,7 @@ module system (
 	output [4:0]	state
    );
 
-   wire color_obs;
+   wire [2:0] color_obs;
 	
    processor processor (
       .clk     	(clk      	),
