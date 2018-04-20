@@ -6,8 +6,7 @@ module controller(
 	output reg [1:0] s_xpos,
 	output reg en_ypos,
 	output reg [1:0] s_ypos,
-	output reg en_timer,
-	output reg s_timer,
+
 	output reg en_move,
 	output reg [2:0] s_move,
 	output reg en_key,
@@ -19,6 +18,8 @@ module controller(
 	*/
 	output reg s_color,
 	output reg plot,
+	output reg en_timer,
+	output reg s_timer,
 	/*
 	input [2:0] move,
 	input [99:0] timer,
@@ -27,10 +28,11 @@ module controller(
 	input [23:0] key,
 	input win,
 	input ObsMemOut,
-	input timer_done,
 	input obs_black,
 	input did_win
 	*/
+	input timer_done,
+	
 	output [4:0] state_cur
 	);
 
@@ -87,8 +89,6 @@ module controller(
 		s_xpos = 0;
 		en_ypos = 0;
 		s_ypos = 0;
-		en_timer = 0;
-		s_timer = 0;
 		en_key = 0;
 		s_key = 0;
 		en_obs = 0;
@@ -98,22 +98,33 @@ module controller(
 		*/
 		plot = 0;
 		s_color = 0;
+		en_timer = 0;
+		s_timer = 0;
 		next_state = INIT;
 		case (state)
 			INIT: begin
-				/*
-				s_move = 0; en_move = 1
-				s_xpos = 0; en_xpos = 1
-				s_ypos = 0; en_ypos = 1
-				s_timer = 0; en_timer = 1
-				s_key = 0; en_key = 1
-				s_win = 0; en_win = 1
-				*/
-				next_state = DRAW;
+				en_timer = 1;	s_timer = 0;
+				
+				next_state = WAIT_TIMER;
 				end
+			WAIT_TIMER: begin
+				en_timer = 1; 	s_timer = 1;
+				
+				if (timer_done)
+					next_state = ERASE;
+				else
+					next_state = WAIT_TIMER;
+			end
+			ERASE: begin
+				plot = 1; 		s_color = 0;
+				en_timer = 1; 	s_timer = 0;
+				
+				next_state = DRAW;
+			end
 			DRAW: begin
 				plot = 1; s_color = 1;
-				next_state = DRAW;
+				
+				next_state = WAIT_TIMER;
 			end
 		endcase
 	end
