@@ -24,55 +24,66 @@ module system_DE2 (
 		
 	assign LEDR = SW;
 	assign LEDG	= 0;
-	assign HEX1 = 7'h7f, HEX2 = 7'h7f, HEX3 = 7'h7f;
+	assign HEX1 = 7'h7f;
 	
 	wire [7:0] vga_x;
 	wire [7:0] vga_y;
 	wire [2:0] vga_color;
 	wire 		  vga_plot;
    wire 		  reset;
+	wire [4:0] state;
 	
-	assign reset = 0;
+	assign reset = ~KEY[1];
 	
 	system sys(
 		.clk			(CLOCK_50),
 		.reset		(reset),
-		.color_out 	(vga_color),
+		.color_draw (vga_color),
 		.x				(vga_x),
 		.y				(vga_y),
-		.plot			(vga_plot)
+		.plot			(vga_plot),
+		.state		(state)
 	);
 	
 	hexdigit x1 (
-		.in	(SW[17:14]),
+		.in	(vga_x[7:4]),
 		.out	(HEX7)
 	);
 	
 	hexdigit x0 (
-		.in	(SW[13:10]),
+		.in	(vga_x[3:0]),
 		.out	(HEX6)
 	);
 	
 	hexdigit y1 (
-		.in	({1'b0, SW[9:7]}),
+		.in	(vga_y[7:4]),
 		.out	(HEX5)
 	);
 	
 	hexdigit y0 (
-		.in	(SW[6:3]),
+		.in	(vga_y[3:0]),
 		.out	(HEX4)
 	);
 	
-	hexdigit color (
-		.in	({1'b0, SW[2:0]}),
-		.out	(HEX0)
+	hexdigit s1 (
+		.in	({3'b0, state[4]}),
+		.out	(HEX3)
 	);
 	
+	hexdigit s0 (
+		.in	(state[3:0]),
+		.out	(HEX2)
+	);
+	
+	hexdigit color (
+		.in	({1'b0, vga_color[2:0]}),
+		.out	(HEX0)
+	);
 
 	
 	
 	vga_adapter VGA(
-		.resetn		(vga_reset),
+		.resetn		(~reset),
 		.clock		(CLOCK_50),
 		.colour		(vga_color),
 		.x				(vga_x),

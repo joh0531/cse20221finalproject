@@ -24,9 +24,9 @@ module system_tb ();
    initial begin
       clk = 0;  reset = 1;
       #10 reset = 0;
-      while (uut.processor.controller.state != EX_QUIT)
-         #10;
-      #10 $stop;
+      //while (uut.processor.controller.state != EX_QUIT)
+         //#10;
+      #100 $stop;
    end
 
 endmodule

@@ -37,7 +37,6 @@ module obstacle_DE2 (
 	.VGA_G(VGA_G),
 	.VGA_B(VGA_B),
 	.VGA_HS(VGA_HS),
-	157
 	.VGA_VS(VGA_VS),
 	.VGA_BLANK(VGA_BLANK),
 	.VGA_SYNC(VGA_SYNC),

@@ -1,66 +1,35 @@
 module processor (
-   input             clk,
-   input             reset,
-   input    [15:0]   din,
-   output   [15:0]   addr,
-   output   [15:0]   dout,
-   output            we
+   input          clk,
+   input          reset,
+	
+	input  [7:0] 	color_obs,
+	output [7:0] 	x,
+	output [7:0] 	y,
+	output [7:0] 	color_draw,
+	output 			plot,
+	output [4:0]	state
    );
+
    
-   wire         s_addr;
-   wire         en_inst;
-   wire         en_a;
-   wire         en_b;
-   wire [3:0]   alu_op;
-   wire         en_f;
-   wire         en_mdr;
-   wire         s_regfile_din;
-   wire         we_regfile;
-   wire         s_regfile_rw;
-   wire         en_pc;
-   wire [3:0]   opcode;
-   wire         zero;
-   wire         neg;
-   
+	wire s_color;
+	
    controller controller (
-      .clk           (clk          ),
-      .reset         (reset        ),
-      .s_addr        (s_addr       ),
-      .en_inst       (en_inst      ),
-      .en_a          (en_a         ),
-      .en_b          (en_b         ),
-      .alu_op        (alu_op       ),
-      .en_f          (en_f         ),
-      .en_mdr        (en_mdr       ),
-      .s_regfile_din (s_regfile_din),
-      .we_regfile    (we_regfile   ),
-      .s_regfile_rw  (s_regfile_rw ),
-      .en_pc         (en_pc        ),
-      .opcode        (opcode       ),
-      .zero          (zero         ),
-      .neg           (neg          ),
-      .we_mem        (we           )
+      .clk           (clk        ),
+      .reset         (reset      ),
+		.s_color			(s_color		),
+		.plot				(plot			),
+		
+		.state_cur		(state		)
    );
    
    datapath datapath (
-      .clk           (clk          ),
-      .s_addr        (s_addr       ),
-      .en_inst       (en_inst      ),
-      .en_a          (en_a         ),
-      .en_b          (en_b         ),
-      .alu_op        (alu_op       ),
-      .en_f          (en_f         ),
-      .en_mdr        (en_mdr       ),
-      .s_regfile_din (s_regfile_din),
-      .we_regfile    (we_regfile   ),
-      .s_regfile_rw  (s_regfile_rw ),
-      .en_pc         (en_pc        ),
-      .opcode        (opcode       ),
-      .zero          (zero         ),
-      .neg           (neg          ),
-      .din           (din          ),
-      .addr          (addr         ),
-      .dout          (dout         )
+      .clk           (clk        ),
+		.s_color			(s_color		),
+		.plot				(plot			),
+		
+		.xpos				(x				),
+		.ypos				(y				),
+		.color_draw		(color_draw	),
    );
    
 endmodule

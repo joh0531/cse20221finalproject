@@ -1,5 +1,6 @@
 module datapath (
 	input clk,
+	/*
 	input en_move,
 	input [2:0] s_move,
 input en_timer,
@@ -14,27 +15,37 @@ input en_timer,
 	input s_win,
 	input en_obs,
 	input [1:0] s_obs,
+	*/
 	input s_color,
 	input plot,
 	
 	//outputs
-	output reg [99:0] xpos,
-	output reg [99:0] ypos,
+	output reg [7:0] xpos,
+	output reg [7:0] ypos,
+	output reg [2:0] color_draw
+	/*
 	output reg [23:0] key,
 
 	//flags
 	output timer_done,
 	output obs_black,
 	output did_win
+	*/
 );
 
-	
+	parameter BLACK = 3'b000;
+	parameter RED	 = 3'b100;
+	parameter GREEN = 3'b010;
 
+
+	/*
 	//move stage
 	always @(posedge clk)
 	if (en_move)
 	move <= s_move;
-
+	*/
+	
+	/*
 	//timer stage
 	always @(posedge clk)
 		if (en_timer)
@@ -42,7 +53,14 @@ input en_timer,
 				timer <= timer + 1;
 			else
 				timer <= 0;
-
+	*/
+	
+	always @(posedge clk) begin
+		xpos <= 8'd80;
+		ypos <= 8'd100;
+	end
+	
+	/*
 	//xpos stage
 	always @(posedge clk)
 	if (en_xpos)
@@ -59,9 +77,20 @@ input en_timer,
 		1: ypos <= ypos + 1;
 		2: ypos <= ypos - 1;
 	endcase
+	*/
 
+	/*
 	assign timer_done = (timer == 1 << 19);
-	assign obs_black = 
+	assign obs_black =
+	*/
+	
+	// vga stage
+	always @(posedge clk)
+		if (plot)
+			if (s_color)
+				color_draw <= RED;
+			else
+				color_draw <= BLACK;
 	
 
 endmodule

@@ -26,6 +26,14 @@ module vga_demo (
 	assign LEDG	= 0;
 	assign HEX1 = 7'h7f, HEX2 = 7'h7f, HEX3 = 7'h7f;
 	
+	wire [7:0] vga_x;
+	wire [7:0] vga_y;
+	wire [2:0] vga_color;
+	wire [2:0] plot;
+	
+	wire reset;
+	assign reset = KEY[0];
+	
 	hexdigit x1 (
 		.in	(SW[17:14]),
 		.out	(HEX7)
@@ -52,12 +60,12 @@ module vga_demo (
 	);
 	
 	vga_adapter VGA(
-		.resetn		(KEY[1]),
+		.resetn		(reset),
 		.clock		(CLOCK_50),
-		.colour		(SW[2:0]),
-		.x				(SW[17:10]),
-		.y				(SW[9:3]),
-		.plot			(~KEY[0]),
+		.colour		(vga_color),
+		.x				(vga_x),
+		.y				(vga_y),
+		.plot			(vga_plot),
 		/* Signals for the DAC to drive the monitor. */
 		.VGA_R		(VGA_R),
 		.VGA_G		(VGA_G),
