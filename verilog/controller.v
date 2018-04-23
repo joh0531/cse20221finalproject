@@ -6,11 +6,9 @@ module controller(
 
 	output reg en_ypos,
 	output reg [1:0] s_ypos,
-	/*
-	output reg en_move,
-	output reg [2:0] s_move,
 	output reg en_key,
-	output reg [2:0] s_key,
+	output reg s_key,
+	/*
 	output reg en_obs,
 	output reg [1:0] s_obs,
 	output reg en_win,
@@ -32,6 +30,7 @@ module controller(
 	input did_win
 	*/
 	input timer_done,
+	input [2:0] move,
 	
 	output [4:0] state_cur
 	);
@@ -41,12 +40,6 @@ module controller(
 	parameter RIGHT = 3'd2;
 	parameter UP = 3'd3;
 	parameter DOWN = 3'd4;
-
-	parameter KEY_NONE = 3'd0;
-	parameter KEY_LEFT = 3'd1;
-	parameter KEY_RIGHT = 3'd2;
-	parameter KEY_UP = 3'd3;
-	parameter KEY_DOWN = 3'd4;
 
 	parameter INIT = 5'd0;
 	parameter WAIT_TIMER = 5'd1;
@@ -85,8 +78,6 @@ module controller(
 		/*
 		en_move = 0;
 		s_move = 0;
-		en_key = 0;
-		s_key = 0;
 		en_obs = 0;
 		s_obs = 0;
 		en_win = 0;
@@ -100,12 +91,15 @@ module controller(
 		s_xpos = 0;
 		en_ypos = 0;
 		s_ypos = 0;
+		en_key = 0;
+		s_key = 0;
 		next_state = INIT;
 		case (state)
 			INIT: begin
 				en_timer = 1;	s_timer = 0;
 				en_xpos = 1;	s_xpos = 0;
 				en_ypos = 1;	s_ypos = 0;
+				en_key = 1;		s_key = 0;
 				
 				next_state = WAIT_TIMER;
 			end
@@ -121,7 +115,22 @@ module controller(
 				plot = 1; 		s_color = 0;
 				en_timer = 1; 	s_timer = 0;
 				
-				next_state = INC_XPOS;
+				next_state = READ_KEY;
+			end
+			READ_KEY: begin
+				en_key = 1; 	s_key = 1;
+				
+				next_state = UPDATE_MOVE;
+			end
+			UPDATE_MOVE: begin
+				case (move)
+					3'd0:	next_state = DRAW;
+					3'd1: next_state = DEC_XPOS;
+					3'd2: next_state = INC_XPOS;
+					3'd3: next_state = DEC_YPOS;
+					3'd4:	next_state = INC_YPOS;
+					default: next_state = DRAW;
+				endcase
 			end
 			INC_XPOS: begin
 				en_xpos = 1; s_xpos = 1;

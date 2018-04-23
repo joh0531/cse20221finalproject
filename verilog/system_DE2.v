@@ -43,6 +43,8 @@ module system_DE2 (
 	wire key_make;
 	wire key_ext;
 	wire [7:0] keycode;
+	
+	wire [2:0] move;
 
 	assign LEDG[2]		= key_ext;
 	assign LEDG[0]		= key_make;
@@ -59,7 +61,8 @@ module system_DE2 (
 		.state		(state),
 		.keycode		(keycode),
 		.key_make	(key_make),
-		.key_ext		(key_ext)
+		.key_ext		(key_ext),
+		.move			(move)
 	);
 	
 	hexdigit x1 (
@@ -94,11 +97,6 @@ module system_DE2 (
 	);
 	*/
 	
-	hexdigit color (
-		.in	({1'b0, vga_color[2:0]}),
-		.out	(HEX0)
-	);
-	
 	hexdigit key1 (
 		.in	(keycode[7:4]),
 		.out	(HEX3)
@@ -108,6 +106,19 @@ module system_DE2 (
 		.in	(keycode[3:0]),
 		.out	(HEX2)
 	);
+	
+	hexdigit hex_move (
+		.in	({1'b0, move}),
+		.out	(HEX0)
+	);
+	
+	/*
+	hexdigit color (
+		.in	({1'b0, vga_color[2:0]}),
+		.out	(HEX0)
+	);
+	*/
+
 
 	PS2_Controller PS2 (
 		// Inputs

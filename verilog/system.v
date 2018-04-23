@@ -10,7 +10,8 @@ module system (
 	output [4:0]	state,
 	output [7:0]	keycode,
 	output 			key_make,
-	output			key_ext
+	output			key_ext,
+	output [2:0]	move
    );
 
    wire [2:0] color_obs;
@@ -25,7 +26,11 @@ module system (
 		.color_obs 	(color_obs	),
       .color_draw (color_draw	),
 		.plot			(plot		 	),
-		.state		(state		)
+		.state		(state		),
+		.move			(move			),
+		.keycode		(keycode		),
+		.key_make	(key_make	),
+		.key_ext		(key_ext		)
    );
 	
 	keycode_recognizer (
