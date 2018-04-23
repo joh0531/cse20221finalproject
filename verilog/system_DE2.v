@@ -19,11 +19,12 @@ module system_DE2 (
 	output			VGA_SYNC,				//	VGA SYNC
 	output [9:0]	VGA_R,   				//	VGA Red[9:0]
 	output [9:0]	VGA_G,	 				//	VGA Green[9:0]
-	output [9:0]	VGA_B	   				//	VGA Blue[9:0]
+	output [9:0]	VGA_B,	   				//	VGA Blue[9:0]
+	inout				PS2_CLK,
+	inout				PS2_DAT
 	);
 		
 	assign LEDR = SW;
-	assign LEDG	= 0;
 	assign HEX1 = 7'h7f;
 	
 	wire [7:0] vga_x;
@@ -35,14 +36,30 @@ module system_DE2 (
 	
 	assign reset = ~KEY[1];
 	
+	// Internal keyboard wires
+	wire		[7:0]	ps2_key_data;
+	wire				ps2_key_en;
+	
+	wire key_make;
+	wire key_ext;
+	wire [7:0] keycode;
+
+	assign LEDG[2]		= key_ext;
+	assign LEDG[0]		= key_make;
+	
 	system sys(
 		.clk			(CLOCK_50),
 		.reset		(reset),
+		.key_en		(ps2_key_en),
+		.key_data	(ps2_key_data),
 		.color_draw (vga_color),
 		.x				(vga_x),
 		.y				(vga_y),
 		.plot			(vga_plot),
-		.state		(state)
+		.state		(state),
+		.keycode		(keycode),
+		.key_make	(key_make),
+		.key_ext		(key_ext)
 	);
 	
 	hexdigit x1 (
@@ -65,6 +82,7 @@ module system_DE2 (
 		.out	(HEX4)
 	);
 	
+	/*
 	hexdigit s1 (
 		.in	({3'b0, state[4]}),
 		.out	(HEX3)
@@ -74,11 +92,37 @@ module system_DE2 (
 		.in	(state[3:0]),
 		.out	(HEX2)
 	);
+	*/
 	
 	hexdigit color (
 		.in	({1'b0, vga_color[2:0]}),
 		.out	(HEX0)
 	);
+	
+	hexdigit key1 (
+		.in	(keycode[7:4]),
+		.out	(HEX3)
+	);
+	
+	hexdigit key0 (
+		.in	(keycode[3:0]),
+		.out	(HEX2)
+	);
+
+	PS2_Controller PS2 (
+		// Inputs
+		.CLOCK_50			(CLOCK_50),
+		.reset				(reset),
+
+		// Bidirectionals
+		.PS2_CLK				(PS2_CLK),
+		.PS2_DAT				(PS2_DAT),
+
+		// Outputs
+		.received_data		(ps2_key_data),
+		.received_data_en	(ps2_key_en)
+	);
+
 
 	
 	
@@ -105,3 +149,4 @@ module system_DE2 (
 	defparam VGA.BACKGROUND_IMAGE = "background_image.mif";
 	
 endmodule
+

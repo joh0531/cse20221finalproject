@@ -1,12 +1,12 @@
 module controller(
 	input clk,
 	input reset,
-	/*
 	output reg en_xpos,
 	output reg [1:0] s_xpos,
+
 	output reg en_ypos,
 	output reg [1:0] s_ypos,
-
+	/*
 	output reg en_move,
 	output reg [2:0] s_move,
 	output reg en_key,
@@ -85,10 +85,6 @@ module controller(
 		/*
 		en_move = 0;
 		s_move = 0;
-		en_xpos = 0;
-		s_xpos = 0;
-		en_ypos = 0;
-		s_ypos = 0;
 		en_key = 0;
 		s_key = 0;
 		en_obs = 0;
@@ -100,13 +96,19 @@ module controller(
 		s_color = 0;
 		en_timer = 0;
 		s_timer = 0;
+		en_xpos = 0;
+		s_xpos = 0;
+		en_ypos = 0;
+		s_ypos = 0;
 		next_state = INIT;
 		case (state)
 			INIT: begin
 				en_timer = 1;	s_timer = 0;
+				en_xpos = 1;	s_xpos = 0;
+				en_ypos = 1;	s_ypos = 0;
 				
 				next_state = WAIT_TIMER;
-				end
+			end
 			WAIT_TIMER: begin
 				en_timer = 1; 	s_timer = 1;
 				
@@ -119,6 +121,26 @@ module controller(
 				plot = 1; 		s_color = 0;
 				en_timer = 1; 	s_timer = 0;
 				
+				next_state = INC_XPOS;
+			end
+			INC_XPOS: begin
+				en_xpos = 1; s_xpos = 1;
+				
+				next_state = DRAW;
+			end
+			DEC_XPOS: begin
+				en_xpos = 1; s_xpos = 2;
+				
+				next_state = DRAW;
+			end
+			INC_YPOS: begin
+				en_ypos = 1; s_ypos = 1;
+				
+				next_state = DRAW;
+			end
+			DEC_YPOS: begin
+				en_ypos = 1; s_ypos = 2;
+				
 				next_state = DRAW;
 			end
 			DRAW: begin
@@ -126,6 +148,7 @@ module controller(
 				
 				next_state = WAIT_TIMER;
 			end
+			default :;
 		endcase
 	end
 

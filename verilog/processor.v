@@ -18,6 +18,11 @@ module processor (
 	
 	wire timer_done;
 	
+	wire en_xpos;
+	wire en_ypos;
+	wire [1:0] s_xpos;
+	wire [1:0] s_ypos;
+	
    controller controller (
       .clk           (clk        ),
       .reset         (reset      ),
@@ -25,6 +30,10 @@ module processor (
 		.plot				(plot			),
 		.en_timer		(en_timer	),
 		.s_timer			(s_timer		),
+		.en_xpos			(en_xpos		),
+		.s_xpos			(s_xpos		),
+		.en_ypos			(en_ypos		),
+		.s_ypos			(s_ypos		),
 		
 		//FLAGS
 		.timer_done		(timer_done	),
@@ -38,6 +47,10 @@ module processor (
 		.plot				(plot			),
 		.en_timer		(en_timer	),
 		.s_timer			(s_timer		),
+		.en_xpos			(en_xpos		),
+		.s_xpos			(s_xpos		),
+		.en_ypos			(en_ypos		),
+		.s_ypos			(s_ypos		),
 		
 		.xpos				(x				),
 		.ypos				(y				),
