@@ -8,9 +8,9 @@ module controller(
 	output reg [1:0] s_ypos,
 	output reg en_key,
 	output reg s_key,
-	/*
 	output reg en_obs,
-	output reg [1:0] s_obs,
+	output reg [2:0] s_obs,
+	/*
 	output reg en_win,
 	output reg s_win,
 	*/
@@ -31,6 +31,7 @@ module controller(
 	*/
 	input timer_done,
 	input [2:0] move,
+	input obs_block,
 	
 	output [4:0] state_cur
 	);
@@ -45,7 +46,7 @@ module controller(
 	parameter WAIT_TIMER = 5'd1;
 	parameter ERASE = 5'd2;
 	parameter READ_KEY = 5'd3;
-	parameter UPDATE_MOVE = 5'd4;
+	parameter UPDATE_OBS_MEM = 5'd4;
 	parameter SET_MOVE_LEFT = 5'd5;
 	parameter SET_MOVE_RIGHT = 5'd6;
 	parameter SET_MOVE_UP = 5'd7;
@@ -54,7 +55,7 @@ module controller(
 	parameter LOOK_RIGHT = 5'd10;
 	parameter LOOK_UP = 5'd11;
 	parameter LOOK_DOWN = 5'd12;
-	parameter TEST_OB = 5'd13;
+	parameter TEST_OBS = 5'd13;
 	parameter UPDATE_POS = 5'd14;
 	parameter INC_XPOS = 5'd15;
 	parameter DEC_XPOS = 5'd16;
@@ -76,10 +77,6 @@ module controller(
 
 	always @(*) begin
 		/*
-		en_move = 0;
-		s_move = 0;
-		en_obs = 0;
-		s_obs = 0;
 		en_win = 0;
 		s_win = 0;
 		*/
@@ -93,6 +90,8 @@ module controller(
 		s_ypos = 0;
 		en_key = 0;
 		s_key = 0;
+		en_obs = 0;
+		s_obs = 0;
 		next_state = INIT;
 		case (state)
 			INIT: begin
@@ -100,6 +99,7 @@ module controller(
 				en_xpos = 1;	s_xpos = 0;
 				en_ypos = 1;	s_ypos = 0;
 				en_key = 1;		s_key = 0;
+				en_obs = 1;		s_obs = 0;
 				
 				next_state = WAIT_TIMER;
 			end
@@ -120,17 +120,25 @@ module controller(
 			READ_KEY: begin
 				en_key = 1; 	s_key = 1;
 				
-				next_state = UPDATE_MOVE;
+				next_state = UPDATE_OBS_MEM;
 			end
-			UPDATE_MOVE: begin
-				case (move)
-					3'd0:	next_state = DRAW;
-					3'd1: next_state = DEC_XPOS;
-					3'd2: next_state = INC_XPOS;
-					3'd3: next_state = DEC_YPOS;
-					3'd4:	next_state = INC_YPOS;
-					default: next_state = DRAW;
-				endcase
+			UPDATE_OBS_MEM: begin
+				en_obs = 1; s_obs = move;
+				
+				next_state = TEST_OBS;
+			end
+			TEST_OBS: begin
+				if (obs_block)
+					next_state = DRAW;
+				else
+					case (move)
+						3'd0:	next_state = DRAW;
+						3'd1: next_state = DEC_XPOS;
+						3'd2: next_state = INC_XPOS;
+						3'd3: next_state = DEC_YPOS;
+						3'd4:	next_state = INC_YPOS;
+						default: next_state = DRAW;
+					endcase
 			end
 			INC_XPOS: begin
 				en_xpos = 1; s_xpos = 1;

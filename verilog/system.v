@@ -11,19 +11,23 @@ module system (
 	output [7:0]	keycode,
 	output 			key_make,
 	output			key_ext,
-	output [2:0]	move
+	output [2:0]	move,
+	output [2:0]	obs_mem
    );
-
-   wire [2:0] color_obs;
 	
-	wire				keycode_ready;
+	wire		  keycode_ready;
+	
+	wire [7:0] obs_x;
+	wire [7:0] obs_y;
 	
    processor processor (
       .clk     	(clk      	),
       .reset   	(reset    	),
       .x    		(x			 	),
 		.y				(y			 	),
-		.color_obs 	(color_obs	),
+		.obs_x		(obs_x		),
+		.obs_y		(obs_y		),
+		.obs_mem 	(obs_mem		),
       .color_draw (color_draw	),
 		.plot			(plot		 	),
 		.state		(state		),
@@ -45,10 +49,10 @@ module system (
 	);
    
    rom memory (
-      .clk     (clk      ),
-      .x    	(x     	 ),
-		.y			(y			 ),
-      .dout    (color_obs)
+      .clk     (clk      	),
+      .x    	(obs_x     	),
+		.y			(obs_y		),
+      .dout    (obs_mem	)
    );
    
 endmodule

@@ -49,6 +49,8 @@ module system_DE2 (
 	assign LEDG[2]		= key_ext;
 	assign LEDG[0]		= key_make;
 	
+	wire [2:0] obs_mem;
+	
 	system sys(
 		.clk			(CLOCK_50),
 		.reset		(reset),
@@ -62,7 +64,8 @@ module system_DE2 (
 		.keycode		(keycode),
 		.key_make	(key_make),
 		.key_ext		(key_ext),
-		.move			(move)
+		.move			(move),
+		.obs_mem		(obs_mem)
 	);
 	
 	hexdigit x1 (
@@ -107,8 +110,8 @@ module system_DE2 (
 		.out	(HEX2)
 	);
 	
-	hexdigit hex_move (
-		.in	({1'b0, move}),
+	hexdigit hex_obs (
+		.in	({2'b0, obs_mem}),
 		.out	(HEX0)
 	);
 	
