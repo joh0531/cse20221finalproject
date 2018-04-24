@@ -5,9 +5,11 @@ module processor (
 	input				key_make,
 	input				key_ext,
 	
-	input  [2:0] 	color_obs,
+	input  [2:0] 	obs_mem,
 	output [7:0] 	x,
 	output [7:0] 	y,
+	output [7:0]	obs_x,
+	output [7:0]	obs_y,
 	output [2:0] 	color_draw,
 	output 			plot,
 	output [4:0]	state,
@@ -31,6 +33,11 @@ module processor (
 	wire en_key;
 	wire s_key;
 	
+	wire en_obs;
+	wire [2:0] s_obs;
+	
+	wire obs_block;
+	
    controller controller (
       .clk           (clk        ),
       .reset         (reset      ),
@@ -44,10 +51,13 @@ module processor (
 		.s_ypos			(s_ypos		),
 		.en_key			(en_key		),
 		.s_key			(s_key		),
+		.en_obs			(en_obs		),
+		.s_obs			(s_obs		),
 		
 		//FLAGS
 		.timer_done		(timer_done	),
 		.move				(move			),
+		.obs_block		(obs_block	),
 		
 		.state_cur		(state		)
    );
@@ -57,6 +67,7 @@ module processor (
 		.keycode			(keycode		),
 		.key_make		(key_make	),
 		.key_ext			(key_ext		),
+		.obs_mem			(obs_mem		),
 		
 		.s_color			(s_color		),
 		.plot				(plot			),
@@ -68,13 +79,18 @@ module processor (
 		.s_ypos			(s_ypos		),
 		.en_key			(en_key		),
 		.s_key			(s_key		),
+		.en_obs			(en_obs		),
+		.s_obs			(s_obs		),
 		
 		.xpos				(x				),
 		.ypos				(y				),
+		.obs_x			(obs_x		),
+		.obs_y			(obs_y		),
 		.color_draw		(color_draw	),
 		
-		.timer_done		(timer_done),
-		.move				(move)
+		.timer_done		(timer_done	),
+		.move				(move			),
+		.obs_block		(obs_block	)
    );
    
 endmodule
