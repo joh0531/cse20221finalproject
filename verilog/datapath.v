@@ -27,9 +27,9 @@ module datapath (
 	
 	//outputs
 	output reg [7:0] xpos,
-	output reg [7:0] ypos,
+	output reg [6:0] ypos,
 	output reg [7:0] obs_x,
-	output reg [7:0] obs_y,
+	output reg [6:0] obs_y,
 	output [2:0] color_draw,
 	
 	//flags
@@ -44,11 +44,12 @@ module datapath (
 	parameter BLACK = 3'b000;
 	parameter RED	 = 3'b100;
 	parameter GREEN = 3'b010;
+	parameter BLUE  = 3'b001;
 	
-	parameter TIMER_LIMIT = 26'd50_000_000;
+	parameter TIMER_LIMIT = 26'd2_500_000;
 	
-	parameter INIT_X = 8'h5;
-	parameter INIT_Y = 8'h2;
+	parameter INIT_X = 8'h86;
+	parameter INIT_Y = 8'h77;
 	
 	parameter KEY_LEFT = 8'h6b;
 	parameter KEY_RIGHT = 8'h74;
@@ -123,11 +124,11 @@ module datapath (
 			key == KEY_DOWN ? 3'd4 :
 			0;
 			
-	assign obs_block = (obs_mem != BLACK);
+	assign obs_block = (obs_mem == BLACK);
 				
 		
 	// vga stage
-	assign color_draw = (s_color ? RED : BLACK);
+	assign color_draw = (s_color ? RED : BLUE);
 				
 	//FLAGS
 	assign timer_done = (timer == TIMER_LIMIT);

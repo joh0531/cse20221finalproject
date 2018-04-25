@@ -7,9 +7,9 @@ module processor (
 	
 	input  [2:0] 	obs_mem,
 	output [7:0] 	x,
-	output [7:0] 	y,
+	output [6:0] 	y,
 	output [7:0]	obs_x,
-	output [7:0]	obs_y,
+	output [6:0]	obs_y,
 	output [2:0] 	color_draw,
 	output 			plot,
 	output [4:0]	state,

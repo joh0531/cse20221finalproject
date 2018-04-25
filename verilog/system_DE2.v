@@ -28,7 +28,7 @@ module system_DE2 (
 	assign HEX1 = 7'h7f;
 	
 	wire [7:0] vga_x;
-	wire [7:0] vga_y;
+	wire [6:0] vga_y;
 	wire [2:0] vga_color;
 	wire 		  vga_plot;
    wire 		  reset;
@@ -79,7 +79,7 @@ module system_DE2 (
 	);
 	
 	hexdigit y1 (
-		.in	(vga_y[7:4]),
+		.in	({1'b0, vga_y[6:4]}),
 		.out	(HEX5)
 	);
 	
@@ -160,7 +160,7 @@ module system_DE2 (
 	defparam VGA.RESOLUTION = "160x120";
 	defparam VGA.MONOCHROME = "FALSE";
 	defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-	defparam VGA.BACKGROUND_IMAGE = "maze.mif";
+	defparam VGA.BACKGROUND_IMAGE = "maze2.mif";
 	
 endmodule
 

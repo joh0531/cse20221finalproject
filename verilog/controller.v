@@ -64,6 +64,7 @@ module controller(
 	parameter CHECK_WIN = 5'd19;
 	parameter DRAW = 5'd20;
 	parameter WIN = 5'd21;
+	parameter WAIT_OBS_MEM = 5'd22;
 
 	
 	reg [4:0] state, next_state;
@@ -125,6 +126,9 @@ module controller(
 			UPDATE_OBS_MEM: begin
 				en_obs = 1; s_obs = move;
 				
+				next_state = WAIT_OBS_MEM;
+			end
+			WAIT_OBS_MEM: begin
 				next_state = TEST_OBS;
 			end
 			TEST_OBS: begin

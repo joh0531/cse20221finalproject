@@ -5,3 +5,4 @@ simulation/
 db/
 incremental_db/
 *.rpt
+*.db

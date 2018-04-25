@@ -1,19 +1,19 @@
 module rom (
    input clk,
    input [7:0] x,
-	input [7:0] y,
+	input [6:0] y,
    output reg [2:0] dout
    );
-     
-   reg [2:0] M [0:19199];
-	
+   // (* ram_init_file = "maze.mif" *)   
+   reg [2:0] M [0:19199] /* synthesis ram_init_file = "maze.mif" */;
+	 
 	parameter WIDTH = 8'd160;
-	parameter HEIGHT = 8'd120;
+	parameter HEIGHT = 7'd120;
 	
 	wire [15:0] addr;
-	assign addr = (y * HEIGHT) + x;
+	assign addr = (y * WIDTH) + x;
 
-   initial begin
+   /*initial begin
       M[0]   = 3'h2;
       M[1]   = 3'h2;
       M[2]   = 3'h2;
@@ -47,6 +47,7 @@ module rom (
       M[30]  = 3'h2;
       M[31]  = 3'h2;
    end
+	*/
 
          
    always @(posedge clk)

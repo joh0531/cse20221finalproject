@@ -5,7 +5,7 @@ module system (
 	input  [7:0]   key_data,
    output [2:0]  	color_draw,
 	output [7:0]  	x,
-	output [7:0]  	y,
+	output [6:0]  	y,
 	output  			plot,
 	output [4:0]	state,
 	output [7:0]	keycode,
@@ -18,7 +18,7 @@ module system (
 	wire		  keycode_ready;
 	
 	wire [7:0] obs_x;
-	wire [7:0] obs_y;
+	wire [6:0] obs_y;
 	
    processor processor (
       .clk     	(clk      	),
