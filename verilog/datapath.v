@@ -49,6 +49,7 @@ module datapath (
 	parameter BLUE  = 3'b001;
 	
 	parameter PURPLE = 3'b101;
+	parameter TEAL   = 3'b011;
 	
 	parameter TIMER_LIMIT = 26'd2_500_000;
 	

@@ -161,7 +161,7 @@ module system_DE2 (
 	defparam VGA.RESOLUTION = "160x120";
 	defparam VGA.MONOCHROME = "FALSE";
 	defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-	defparam VGA.BACKGROUND_IMAGE = "maze.mif";
+	defparam VGA.BACKGROUND_IMAGE = "maze2.mif";
 	
 endmodule
 
