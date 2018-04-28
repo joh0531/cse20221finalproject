@@ -18,7 +18,7 @@ module processor (
    );
 
    
-	wire s_color;
+	wire [1:0] s_color;
 	
 	wire en_timer;
 	wire s_timer;
@@ -37,7 +37,10 @@ module processor (
 	wire en_obs;
 	wire [2:0] s_obs;
 	
-	wire obs_block;
+	wire obs_wall;
+	wire obs_lava;
+	wire obs_ice;
+	wire unfrozen;
 	
    controller controller (
       .clk           (clk        ),
@@ -58,7 +61,10 @@ module processor (
 		//FLAGS
 		.timer_done		(timer_done	),
 		.move				(move			),
-		.obs_block		(obs_block	),
+		.obs_wall		(obs_wall	),
+		.obs_lava		(obs_lava	),
+		.obs_ice			(obs_ice		),
+		.unfrozen		(unfrozen	),
 		
 		.state_cur		(state		)
    );
@@ -91,7 +97,10 @@ module processor (
 		
 		.timer_done		(timer_done	),
 		.move				(move			),
-		.obs_block		(obs_block	),
+		.obs_wall		(obs_wall	),
+		.obs_lava		(obs_lava	),
+		.obs_ice			(obs_ice		),
+		.unfrozen		(unfrozen	),
 		.trail			(trail		)
    );
    

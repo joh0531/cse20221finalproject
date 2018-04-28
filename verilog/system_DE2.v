@@ -89,7 +89,7 @@ module system_DE2 (
 		.out	(HEX4)
 	);
 	
-	/*
+	
 	hexdigit s1 (
 		.in	({3'b0, state[4]}),
 		.out	(HEX3)
@@ -99,17 +99,7 @@ module system_DE2 (
 		.in	(state[3:0]),
 		.out	(HEX2)
 	);
-	*/
 	
-	hexdigit key1 (
-		.in	(keycode[7:4]),
-		.out	(HEX3)
-	);
-	
-	hexdigit key0 (
-		.in	(keycode[3:0]),
-		.out	(HEX2)
-	);
 	
 	hexdigit hex_obs (
 		.in	({2'b0, obs_mem}),
@@ -161,7 +151,7 @@ module system_DE2 (
 	defparam VGA.RESOLUTION = "160x120";
 	defparam VGA.MONOCHROME = "FALSE";
 	defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-	defparam VGA.BACKGROUND_IMAGE = "maze2.mif";
+	defparam VGA.BACKGROUND_IMAGE = "maze.mif";
 	
 endmodule
 

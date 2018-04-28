@@ -14,7 +14,7 @@ module controller(
 	output reg en_win,
 	output reg s_win,
 	*/
-	output reg s_color,
+	output reg [1:0] s_color,
 	output reg plot,
 	output reg en_timer,
 	output reg s_timer,
@@ -25,13 +25,15 @@ module controller(
 	input [99:0] ypos,
 	input [23:0] key,
 	input win,
-	input ObsMemOut,
 	input obs_black,
 	input did_win
 	*/
 	input timer_done,
 	input [2:0] move,
-	input obs_block,
+	input obs_wall,
+	input obs_lava,
+	input obs_ice,
+	input unfrozen,
 	
 	output [4:0] state_cur
 	);
@@ -47,16 +49,11 @@ module controller(
 	parameter ERASE = 5'd2;
 	parameter READ_KEY = 5'd3;
 	parameter UPDATE_OBS_MEM = 5'd4;
-	parameter SET_MOVE_LEFT = 5'd5;
-	parameter SET_MOVE_RIGHT = 5'd6;
-	parameter SET_MOVE_UP = 5'd7;
-	parameter SET_MOVE_DOWN = 5'd8;
-	parameter LOOK_LEFT = 5'd9;
-	parameter LOOK_RIGHT = 5'd10;
-	parameter LOOK_UP = 5'd11;
-	parameter LOOK_DOWN = 5'd12;
-	parameter TEST_OBS = 5'd13;
-	parameter UPDATE_POS = 5'd14;
+	parameter WAIT_OBS_MEM = 5'd5;
+	parameter TEST_OBS = 5'd6;
+	parameter RESTART = 5'd7;
+	parameter FROZEN = 5'd8;
+	
 	parameter INC_XPOS = 5'd15;
 	parameter DEC_XPOS = 5'd16;
 	parameter INC_YPOS = 5'd17;
@@ -64,7 +61,6 @@ module controller(
 	parameter CHECK_WIN = 5'd19;
 	parameter DRAW = 5'd20;
 	parameter WIN = 5'd21;
-	parameter WAIT_OBS_MEM = 5'd22;
 
 	
 	reg [4:0] state, next_state;
@@ -132,8 +128,12 @@ module controller(
 				next_state = TEST_OBS;
 			end
 			TEST_OBS: begin
-				if (obs_block)
+				if (obs_wall)
 					next_state = DRAW;
+				else if (obs_lava)
+					next_state = RESTART;
+				else if (obs_ice)
+					next_state = FROZEN;
 				else
 					case (move)
 						3'd0:	next_state = DRAW;
@@ -143,6 +143,21 @@ module controller(
 						3'd4:	next_state = INC_YPOS;
 						default: next_state = DRAW;
 					endcase
+			end
+			RESTART: begin
+				en_xpos = 1;	s_xpos = 0;
+				en_ypos = 1;	s_ypos = 0;
+				
+				next_state = DRAW;
+			end
+			FROZEN: begin
+				en_timer = 1; 	s_timer = 1;
+				plot = 1;		s_color = 2;
+				
+				if (unfrozen)
+					next_state = WAIT_TIMER;
+				else
+					next_state = FROZEN;
 			end
 			INC_XPOS: begin
 				en_xpos = 1; s_xpos = 1;

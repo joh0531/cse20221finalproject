@@ -36,7 +36,7 @@ module system (
 		.keycode		(keycode		),
 		.key_make	(key_make	),
 		.key_ext		(key_ext		),
-		.trail		(trail		),
+		.trail		(trail		)
    );
 	
 	keycode_recognizer (

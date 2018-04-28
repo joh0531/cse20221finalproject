@@ -3,7 +3,7 @@ module datapath (
 	input [7:0] keycode,
 	input 		key_make,
 	input			key_ext,
-	input			obs_mem,
+	input	[2:0]	obs_mem,
 	input			trail,
 	/*
 	input en_move,
@@ -21,7 +21,7 @@ module datapath (
 	input en_win,
 	input s_win,
 	*/
-	input s_color,
+	input [1:0] s_color,
 	input plot,
 	input en_timer,
 	input s_timer,
@@ -35,7 +35,10 @@ module datapath (
 	
 	//flags
 	output [2:0] move,
-	output obs_block,
+	output obs_wall,
+	output obs_lava,
+	output obs_ice,
+	output unfrozen,
 	/*
 	output did_win
 	*/
@@ -43,6 +46,7 @@ module datapath (
 );
 
 	parameter BLACK = 3'b000;
+	parameter WHITE = 3'b111;
 	
 	parameter RED	 = 3'b100;
 	parameter GREEN = 3'b010;
@@ -50,8 +54,10 @@ module datapath (
 	
 	parameter PURPLE = 3'b101;
 	parameter TEAL   = 3'b011;
+	parameter YELLOW = 3'b110;
 	
 	parameter TIMER_LIMIT = 26'd2_500_000;
+	parameter UNFROZEN_LIMIT = 26'd50_000_000;
 	
 	parameter INIT_X = 8'h86;
 	parameter INIT_Y = 8'h77;
@@ -128,15 +134,23 @@ module datapath (
 			key == KEY_UP ? 3'd3 :
 			key == KEY_DOWN ? 3'd4 :
 			0;
-			
-	assign obs_block = (obs_mem == BLACK);
 				
 		
 	// vga stage
-	assign color_draw = (s_color ? RED : (trail ? TEAL : PURPLE));
+	assign color_draw = (
+			s_color == 2'd1 ? GREEN :
+			s_color == 2'd2 ? BLUE :
+			trail ? PURPLE : PURPLE
+	);
 				
 	//FLAGS
 	assign timer_done = (timer == TIMER_LIMIT);
+	
+	assign obs_wall = (obs_mem == BLACK);
+	assign obs_lava = (obs_mem == RED);
+	assign obs_ice  = (obs_mem == BLUE);
+	
+	assign unfrozen =	(timer == UNFROZEN_LIMIT);
 	
 
 endmodule
