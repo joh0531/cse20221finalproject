@@ -42,7 +42,11 @@ module datapath (
 	/*
 	output did_win
 	*/
-	output timer_done
+	output timer_done,
+
+    input en_t,
+    input s_t,
+    output [8:0] t
 );
 
 	parameter BLACK = 3'b000;
@@ -68,8 +72,11 @@ module datapath (
 	parameter KEY_DOWN = 8'h72;
 	
 	reg [25:0] timer;
+    reg [33:0] clockt;
 	
 	reg [7:0] key;
+
+    assign t = clockt / 26'd50_000_000;
 
 	/*
 	//move stage
@@ -85,6 +92,13 @@ module datapath (
 				timer <= timer + 1;
 			else
 				timer <= 0;
+
+    always @(posedge clk)
+        if (en_clockt)
+            if (s_clockt)
+                clockt <= clockt + 1;
+            else
+                clockt <= 0;
 	
 	//xpos stage
 	always @(posedge clk)

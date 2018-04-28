@@ -22,7 +22,18 @@ module system_DE2 (
 	output [9:0]	VGA_B,	   				//	VGA Blue[9:0]
 	inout				PS2_CLK,
 	inout				PS2_DAT
+    //LCD Module 16X2
+    output          LCD_ON,
+    output          LCD_BLON,
+    output          LCD_RW,
+    output          LCD_EN,
+    output          LCD_RS,
+    inout [7:0]     LCD_DATA
 	);
+
+    assign LCD_ON = 1'b1;
+    assign LCD_BLON = 1'b1;
+    wire [8:0] t;
 		
 	assign LEDR = SW;
 	assign HEX1 = 7'h7f;
@@ -65,6 +76,7 @@ module system_DE2 (
 		.key_make	(key_make),
 		.key_ext		(key_ext),
 		.move			(move),
+        .t              (t),
 		.obs_mem		(obs_mem),
 		.trail		(SW[17])
 	);
@@ -113,6 +125,34 @@ module system_DE2 (
 	);
 	*/
 
+    // LCD
+    wire [4:0] disp_addr;
+    wire [7:0] disp_data;
+    
+    wire DLY_RST;
+
+    Reset_Delay rd1(
+        .iCLK       (CLOCK_50),
+        .oRESET     (DLY_RST),
+    );
+
+    LCD_message lcd1(
+        .clk        (CLOCK_50),
+        .raddr      (disp_addr),
+        .t          (t),
+        .dout       (disp_data)
+    );
+
+    LCD_Display u1(
+        .iCLK_50MHZ (CLOCK_50),
+        .iRST_N     (DLY_RST),
+        .oMSG_INDEX (disp_addr),
+        .iMSG_ASCII (disp_data),
+        .DATA_BUS   (LCD_DATA),
+        .LCD_RW     (LCD_RW),
+        .LCD_E      (LCD_EN),
+        .LCD_RS     (LCD_RS)
+    );
 
 	PS2_Controller PS2 (
 		// Inputs

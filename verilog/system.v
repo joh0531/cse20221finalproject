@@ -13,6 +13,7 @@ module system (
 	output			key_ext,
 	output [2:0]	move,
 	output [2:0]	obs_mem,
+    output [8:0]   t,
 	input				trail
    );
 	
@@ -33,6 +34,7 @@ module system (
 		.plot			(plot		 	),
 		.state		(state		),
 		.move			(move			),
+        .t              (t),
 		.keycode		(keycode		),
 		.key_make	(key_make	),
 		.key_ext		(key_ext		),
