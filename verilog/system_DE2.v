@@ -65,7 +65,8 @@ module system_DE2 (
 		.key_make	(key_make),
 		.key_ext		(key_ext),
 		.move			(move),
-		.obs_mem		(obs_mem)
+		.obs_mem		(obs_mem),
+		.trail		(SW[17])
 	);
 	
 	hexdigit x1 (
@@ -160,7 +161,7 @@ module system_DE2 (
 	defparam VGA.RESOLUTION = "160x120";
 	defparam VGA.MONOCHROME = "FALSE";
 	defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-	defparam VGA.BACKGROUND_IMAGE = "maze2.mif";
+	defparam VGA.BACKGROUND_IMAGE = "maze.mif";
 	
 endmodule
 

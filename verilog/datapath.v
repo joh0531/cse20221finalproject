@@ -4,6 +4,7 @@ module datapath (
 	input 		key_make,
 	input			key_ext,
 	input			obs_mem,
+	input			trail,
 	/*
 	input en_move,
 	input [2:0] s_move,
@@ -42,9 +43,12 @@ module datapath (
 );
 
 	parameter BLACK = 3'b000;
+	
 	parameter RED	 = 3'b100;
 	parameter GREEN = 3'b010;
 	parameter BLUE  = 3'b001;
+	
+	parameter PURPLE = 3'b101;
 	
 	parameter TIMER_LIMIT = 26'd2_500_000;
 	
@@ -98,7 +102,7 @@ module datapath (
 	//key stage
 	always @(posedge clk)
 		if (en_key)
-			if (s_key && key_ext) begin //&& key_make?
+			if (s_key && key_ext && key_make) begin
 				key <= keycode;
 			end
 			else begin
@@ -128,7 +132,7 @@ module datapath (
 				
 		
 	// vga stage
-	assign color_draw = (s_color ? RED : BLUE);
+	assign color_draw = (s_color ? RED : (trail ? TEAL : PURPLE));
 				
 	//FLAGS
 	assign timer_done = (timer == TIMER_LIMIT);

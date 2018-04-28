@@ -12,7 +12,8 @@ module system (
 	output 			key_make,
 	output			key_ext,
 	output [2:0]	move,
-	output [2:0]	obs_mem
+	output [2:0]	obs_mem,
+	input				trail
    );
 	
 	wire		  keycode_ready;
@@ -34,7 +35,8 @@ module system (
 		.move			(move			),
 		.keycode		(keycode		),
 		.key_make	(key_make	),
-		.key_ext		(key_ext		)
+		.key_ext		(key_ext		),
+		.trail		(trail		),
    );
 	
 	keycode_recognizer (
