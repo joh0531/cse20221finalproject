@@ -35,8 +35,8 @@ module processor (
 	wire en_key;
 	wire s_key;
 
-    wire en_clockt,
-    wire s_clockt,
+   wire en_clockt;
+   wire s_clockt;
 	
 	wire en_obs;
 	wire [2:0] s_obs;

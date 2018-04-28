@@ -44,8 +44,8 @@ module datapath (
 	*/
 	output timer_done,
 
-    input en_t,
-    input s_t,
+    input en_clockt,
+    input s_clockt,
     output [8:0] t
 );
 

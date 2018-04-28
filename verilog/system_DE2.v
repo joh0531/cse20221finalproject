@@ -21,7 +21,7 @@ module system_DE2 (
 	output [9:0]	VGA_G,	 				//	VGA Green[9:0]
 	output [9:0]	VGA_B,	   				//	VGA Blue[9:0]
 	inout				PS2_CLK,
-	inout				PS2_DAT
+	inout				PS2_DAT,
     //LCD Module 16X2
     output          LCD_ON,
     output          LCD_BLON,
@@ -31,9 +31,9 @@ module system_DE2 (
     inout [7:0]     LCD_DATA
 	);
 
-    assign LCD_ON = 1'b1;
-    assign LCD_BLON = 1'b1;
-    wire [8:0] t;
+   assign LCD_ON = 1'b1;
+   assign LCD_BLON = 1'b1;
+   wire [8:0] t;
 		
 	assign LEDR = SW;
 	assign HEX1 = 7'h7f;
