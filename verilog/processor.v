@@ -13,7 +13,8 @@ module processor (
 	output [2:0] 	color_draw,
 	output 			plot,
 	output [4:0]	state,
-	output [2:0]   move
+	output [2:0]   move,
+	input				trail
    );
 
    
@@ -90,7 +91,8 @@ module processor (
 		
 		.timer_done		(timer_done	),
 		.move				(move			),
-		.obs_block		(obs_block	)
+		.obs_block		(obs_block	),
+		.trail			(trail		)
    );
    
 endmodule
