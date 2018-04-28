@@ -18,6 +18,8 @@ module controller(
 	output reg plot,
 	output reg en_timer,
 	output reg s_timer,
+    output reg en_clockt,
+    output reg s_clockt,
 	/*
 	input [2:0] move,
 	input [99:0] timer,
@@ -93,6 +95,8 @@ module controller(
 		s_key = 0;
 		en_obs = 0;
 		s_obs = 0;
+        en_clockt = 1;
+        s_clockt = 1;
 		next_state = INIT;
 		case (state)
 			INIT: begin
@@ -101,6 +105,7 @@ module controller(
 				en_ypos = 1;	s_ypos = 0;
 				en_key = 1;		s_key = 0;
 				en_obs = 1;		s_obs = 0;
+                                s_clockt = 0;
 				
 				next_state = WAIT_TIMER;
 			end

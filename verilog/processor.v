@@ -14,6 +14,7 @@ module processor (
 	output 			plot,
 	output [4:0]	state,
 	output [2:0]   move,
+    output [8:0]  t,
 	input				trail
    );
 
@@ -33,6 +34,9 @@ module processor (
 	
 	wire en_key;
 	wire s_key;
+
+    wire en_clockt,
+    wire s_clockt,
 	
 	wire en_obs;
 	wire [2:0] s_obs;
@@ -54,6 +58,8 @@ module processor (
 		.s_key			(s_key		),
 		.en_obs			(en_obs		),
 		.s_obs			(s_obs		),
+        .en_clockt           (en_clockt),
+        .s_clockt            (s_clockt),
 		
 		//FLAGS
 		.timer_done		(timer_done	),
@@ -82,6 +88,9 @@ module processor (
 		.s_key			(s_key		),
 		.en_obs			(en_obs		),
 		.s_obs			(s_obs		),
+        .en_clockt           (en_clockt       ),
+        .s_clockt            (s_clockt        ),
+        .t              (t),
 		
 		.xpos				(x				),
 		.ypos				(y				),
