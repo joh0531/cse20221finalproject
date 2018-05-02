@@ -257,7 +257,7 @@ module system_DE2 (
 	defparam vga_win.RESOLUTION = "160x120";
 	defparam vga_win.MONOCHROME = "FALSE";
 	defparam vga_win.BITS_PER_COLOUR_CHANNEL = 1;
-	defparam vga_win.BACKGROUND_IMAGE = "gameover.mif";
+	defparam vga_win.BACKGROUND_IMAGE = "win.mif";
 	
 endmodule
 

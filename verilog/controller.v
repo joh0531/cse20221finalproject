@@ -64,6 +64,7 @@ module controller(
 	parameter DRAW = 5'd20;
 	parameter WIN = 5'd21;
 	parameter INIT_RESET = 5'd22;
+	parameter INIT_SET_END_PIXEL = 5'd23;
 
 	
 	reg [4:0] state, next_state;
@@ -97,7 +98,14 @@ module controller(
 		next_state = INIT_RESET;
 		case (state)
 			INIT_RESET: begin
-				plot = 1; s_color = 0;
+				plot = 1; 		s_color = 0;
+				en_xpos = 1;	s_xpos = 3;
+				en_ypos = 1;	s_ypos = 3;
+				
+				next_state = INIT_SET_END_PIXEL;
+			end
+			INIT_SET_END_PIXEL: begin
+				plot = 1; s_color = 3;
 				
 				next_state = INIT;
 			end
@@ -107,7 +115,7 @@ module controller(
 				en_ypos = 1;	s_ypos = 0;
 				en_key = 1;		s_key = 0;
 				en_obs = 1;		s_obs = 0;
-                           s_clockt = 0;
+									s_clockt = 0;
 				
 				next_state = WAIT_TIMER;
 			end

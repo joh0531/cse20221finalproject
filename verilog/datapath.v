@@ -108,6 +108,7 @@ module datapath (
 				0: xpos <= INIT_X;
 				1: xpos <= xpos + 1;
 				2: xpos <= xpos - 1;
+				3: xpos <= END_X;
 				default: xpos <= INIT_X;
 			endcase
 			
@@ -118,6 +119,7 @@ module datapath (
 				0: ypos <= INIT_Y;
 				1: ypos <= ypos + 1;
 				2: ypos <= ypos - 1;
+				3:	ypos <= END_Y;
 				default: ypos <= INIT_Y;
 			endcase
 		
@@ -155,6 +157,7 @@ module datapath (
 	assign color_draw = (
 			s_color == 2'd1 ? GREEN :
 			s_color == 2'd2 ? BLUE :
+			s_color == 2'd3 ? WHITE :
 			trail ? PURPLE : PURPLE
 	);
 				
