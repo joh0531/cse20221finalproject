@@ -28,8 +28,8 @@ module controller(
 	input [23:0] key,
 	input win,
 	input obs_black,
-	input did_win
 	*/
+	input win,
 	input timer_done,
 	input [2:0] move,
 	input obs_wall,
@@ -63,6 +63,7 @@ module controller(
 	parameter CHECK_WIN = 5'd19;
 	parameter DRAW = 5'd20;
 	parameter WIN = 5'd21;
+	parameter INIT_RESET = 5'd22;
 
 	
 	reg [4:0] state, next_state;
@@ -70,7 +71,7 @@ module controller(
 
 	always @(posedge clk)
 		if (reset)
-			state <= INIT;
+			state <= INIT_RESET;
 		else
 			state <= next_state;
 
@@ -91,17 +92,22 @@ module controller(
 		s_key = 0;
 		en_obs = 0;
 		s_obs = 0;
-        en_clockt = 1;
-        s_clockt = 1;
-		next_state = INIT;
+      en_clockt = 1;
+      s_clockt = 1;
+		next_state = INIT_RESET;
 		case (state)
+			INIT_RESET: begin
+				plot = 1; s_color = 0;
+				
+				next_state = INIT;
+			end
 			INIT: begin
 				en_timer = 1;	s_timer = 0;
 				en_xpos = 1;	s_xpos = 0;
 				en_ypos = 1;	s_ypos = 0;
 				en_key = 1;		s_key = 0;
 				en_obs = 1;		s_obs = 0;
-                                s_clockt = 0;
+                           s_clockt = 0;
 				
 				next_state = WAIT_TIMER;
 			end
@@ -187,7 +193,15 @@ module controller(
 			DRAW: begin
 				plot = 1; 		s_color = 1;
 				
-				next_state = WAIT_TIMER;
+				if (win)
+					next_state = WIN;
+				else
+					next_state = WAIT_TIMER;
+			end
+			WIN: begin
+				en_clockt = 0;
+				plot = 1;		s_color = 0;
+				next_state = WIN;
 			end
 			default :;
 		endcase

@@ -62,6 +62,8 @@ module system_DE2 (
 	
 	wire [2:0] obs_mem;
 	
+	wire win;
+	
 	system sys(
 		.clk			(CLOCK_50),
 		.reset		(reset),
@@ -76,8 +78,9 @@ module system_DE2 (
 		.key_make	(key_make),
 		.key_ext		(key_ext),
 		.move			(move),
-        .t              (t),
+      .t          (t),
 		.obs_mem		(obs_mem),
+		.win			(win),
 		.trail		(SW[17])
 	);
 	
@@ -169,16 +172,37 @@ module system_DE2 (
 	);
 
 
+	wire [9:0] vga_game_R, vga_game_G, vga_game_B;
+	wire vga_game_HS, vga_game_VS, vga_game_BLANK, vga_game_SYNC, vga_game_CLK;
 	
-	
-	vga_adapter VGA(
-		.resetn		(~reset),
-		.clock		(CLOCK_50),
-		.colour		(vga_color),
-		.x				(vga_x),
-		.y				(vga_y),
-		.plot			(vga_plot),
-		/* Signals for the DAC to drive the monitor. */
+	wire [9:0] vga_win_R, vga_win_G, vga_win_B;
+	wire vga_win_HS, vga_win_VS, vga_win_BLANK, vga_win_SYNC, vga_win_CLK;
+
+	vga_select selector(
+		.win				(win),
+		
+		//Game states
+		.vga_game_R		(vga_game_R),
+		.vga_game_G		(vga_game_G),
+		.vga_game_B		(vga_game_B),
+		.vga_game_HS	(vga_game_HS),
+		.vga_game_VS	(vga_game_VS),
+		.vga_game_BLANK(vga_game_BLANK),
+		.vga_game_SYNC	(vga_game_SYNC),
+		.vga_game_CLK	(vga_game_CLK),
+		
+		//WIN states
+		.vga_win_R		(vga_win_R),
+		.vga_win_G		(vga_win_G),
+		.vga_win_B		(vga_win_B),
+		.vga_win_HS		(vga_win_HS),
+		.vga_win_VS		(vga_win_VS),
+		.vga_win_BLANK	(vga_win_BLANK),
+		.vga_win_SYNC	(vga_win_SYNC),
+		.vga_win_CLK	(vga_win_CLK),
+		
+		//VGA outputs
+		.VGA_CLK		(VGA_CLK),
 		.VGA_R		(VGA_R),
 		.VGA_G		(VGA_G),
 		.VGA_B		(VGA_B),
@@ -186,12 +210,54 @@ module system_DE2 (
 		.VGA_VS		(VGA_VS),
 		.VGA_BLANK	(VGA_BLANK),
 		.VGA_SYNC	(VGA_SYNC),
-		.VGA_CLK		(VGA_CLK)
 	);
-	defparam VGA.RESOLUTION = "160x120";
-	defparam VGA.MONOCHROME = "FALSE";
-	defparam VGA.BITS_PER_COLOUR_CHANNEL = 1;
-	defparam VGA.BACKGROUND_IMAGE = "maze.mif";
+	
+	
+	vga_adapter vga_game(
+		.resetn		(~reset),
+		.clock		(CLOCK_50),
+		.colour		(vga_color),
+		.x				(vga_x),
+		.y				(vga_y),
+		.plot			(vga_plot),
+		/* Signals for the DAC to drive the monitor. */
+		.VGA_R		(vga_game_R),
+		.VGA_G		(vga_game_G),
+		.VGA_B		(vga_game_B),
+		.VGA_HS		(vga_game_HS),
+		.VGA_VS		(vga_game_VS),
+		.VGA_BLANK	(vga_game_BLANK),
+		.VGA_SYNC	(vga_game_SYNC),
+		.VGA_CLK		(vga_game_CLK)
+	);
+	defparam vga_game.RESOLUTION = "160x120";
+	defparam vga_game.MONOCHROME = "FALSE";
+	defparam vga_game.BITS_PER_COLOUR_CHANNEL = 1;
+	defparam vga_game.BACKGROUND_IMAGE = "maze.mif";
+	
+	
+	
+	vga_adapter vga_win(
+		.resetn		(~reset),
+		.clock		(CLOCK_50),
+		.colour		(vga_color),
+		.x				(vga_x),
+		.y				(vga_y),
+		.plot			(vga_plot),
+		/* Signals for the DAC to drive the monitor. */
+		.VGA_R		(vga_win_R),
+		.VGA_G		(vga_win_G),
+		.VGA_B		(vga_win_B),
+		.VGA_HS		(vga_win_HS),
+		.VGA_VS		(vga_win_VS),
+		.VGA_BLANK	(vga_win_BLANK),
+		.VGA_SYNC	(vga_win_SYNC),
+		.VGA_CLK		(vga_win_CLK)
+	);
+	defparam vga_win.RESOLUTION = "160x120";
+	defparam vga_win.MONOCHROME = "FALSE";
+	defparam vga_win.BITS_PER_COLOUR_CHANNEL = 1;
+	defparam vga_win.BACKGROUND_IMAGE = "gameover.mif";
 	
 endmodule
 

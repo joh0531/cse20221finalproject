@@ -14,7 +14,8 @@ module processor (
 	output 			plot,
 	output [4:0]	state,
 	output [2:0]   move,
-    output [8:0]  t,
+   output [8:0]   t,
+	output			win,
 	input				trail
    );
 
@@ -71,6 +72,7 @@ module processor (
 		.obs_lava		(obs_lava	),
 		.obs_ice			(obs_ice		),
 		.unfrozen		(unfrozen	),
+		.win				(win			),
 		
 		.state_cur		(state		)
    );
@@ -94,9 +96,9 @@ module processor (
 		.s_key			(s_key		),
 		.en_obs			(en_obs		),
 		.s_obs			(s_obs		),
-        .en_clockt           (en_clockt       ),
-        .s_clockt            (s_clockt        ),
-        .t              (t),
+      .en_clockt     (en_clockt  ),
+      .s_clockt      (s_clockt   ),
+      .t             (t				),
 		
 		.xpos				(x				),
 		.ypos				(y				),
@@ -110,6 +112,7 @@ module processor (
 		.obs_lava		(obs_lava	),
 		.obs_ice			(obs_ice		),
 		.unfrozen		(unfrozen	),
+		.win				(win			),
 		.trail			(trail		)
    );
    

@@ -13,7 +13,8 @@ module system (
 	output			key_ext,
 	output [2:0]	move,
 	output [2:0]	obs_mem,
-    output [8:0]   t,
+   output [8:0]   t,
+	output			win,
 	input				trail
    );
 	
@@ -34,14 +35,15 @@ module system (
 		.plot			(plot		 	),
 		.state		(state		),
 		.move			(move			),
-        .t              (t),
+      .t          (t),
 		.keycode		(keycode		),
 		.key_make	(key_make	),
 		.key_ext		(key_ext		),
-		.trail		(trail		)
+		.trail		(trail		),
+		.win			(win			)
    );
 	
-	keycode_recognizer (
+	keycode_recognizer keys(
 		.clk					(clk),
 		.reset_n				(~reset),
 		.ps2_key_en			(key_en),

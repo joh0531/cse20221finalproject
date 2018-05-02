@@ -39,14 +39,12 @@ module datapath (
 	output obs_lava,
 	output obs_ice,
 	output unfrozen,
-	/*
-	output did_win
-	*/
+	output win,
 	output timer_done,
 
-    input en_clockt,
-    input s_clockt,
-    output [8:0] t
+   input en_clockt,
+   input s_clockt,
+   output [8:0] t
 );
 
 	parameter BLACK = 3'b000;
@@ -65,6 +63,9 @@ module datapath (
 	
 	parameter INIT_X = 8'h86;
 	parameter INIT_Y = 8'h77;
+	
+	parameter END_X = 8'h8E;
+	parameter END_Y = 8'h77;
 	
 	parameter KEY_LEFT = 8'h6b;
 	parameter KEY_RIGHT = 8'h74;
@@ -165,6 +166,8 @@ module datapath (
 	assign obs_ice  = (obs_mem == BLUE);
 	
 	assign unfrozen =	(timer == UNFROZEN_LIMIT);
+	
+	assign win = ((xpos == END_X) && (ypos == END_Y));
 	
 
 endmodule
